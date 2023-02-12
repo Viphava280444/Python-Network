@@ -10,10 +10,10 @@ print(socket.gethostbyname(socket.gethostname()))
 
 #Bind our new socket to a tuple (IP Address, Port Address)
 server_socket.bind((socket.gethostbyname(socket.gethostname()), 12345))
-
+#Hello
 #Put the socket into listening mode to listen for any possible connections
 server_socket.listen()
-#Hello
+
 #Listen forever to accept any connection
 while True:
     #Accept every single connection and store two pieces of information
