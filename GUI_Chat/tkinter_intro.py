@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import BOTH, StringVar
+from tkinter import BOTH, StringVar, END
 
 #Define window
 root = tkinter.Tk()
@@ -15,6 +15,13 @@ output_color = "#dee7e7"
 root.config(bg=root_color)
 
 #Define function
+#Define fuction for sending message
+def send_message():
+    message_label = tkinter.Label(output_frame, text=message_entry.get(), fg= text_color.get(), bg=output_color, font=('Helvetica', 12))
+    message_label.pack()
+
+    #Clear the entry field for the next message
+    message_entry.delete(0, END)
 
 
 #Define GUI Layout
@@ -25,8 +32,8 @@ input_frame.pack(pady=10)
 output_frame.pack(padx=10, pady=(0,10), fill=BOTH, expand=True)
 
 #Define Widgets
-message_entry = tkinter.Entry(input_frame, text="Enter a message", width=30)
-send_button = tkinter.Button(input_frame, text="Send")
+message_entry = tkinter.Entry(input_frame, text="Enter a message", width=30, font=("Helvetica", 12))
+send_button = tkinter.Button(input_frame, text="Send", bg=output_color, command=send_message)
 message_entry.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 send_button.grid(row=0, column=3, rowspan=2, padx=5, pady=10, ipadx=15, ipady=5)
 #hi
@@ -39,8 +46,8 @@ red_button.grid(row=1, column=0)
 green_button.grid(row=1, column=1)
 blue_button.grid(row=1, column=2)
 
-output_label = tkinter.Label(output_frame, text="--- Stored Messages ---")
+output_label = tkinter.Label(output_frame, text="--- Stored Messages ---", fg=input_color, bg=output_color, font=('Helvetica bold', 18))
+output_label.pack(pady=15)
 
 #Run the root window's mainloop()
-#Hello Ohm 
 root.mainloop()
