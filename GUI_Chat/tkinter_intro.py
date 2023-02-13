@@ -4,7 +4,7 @@ from tkinter import BOTH, StringVar
 #Define window
 root = tkinter.Tk()
 root.title("Let's Chat")
-root.iconbitmap("talk_icon.ico")
+root.iconbitmap("GUI_Chat/talk_icon.ico")
 root.geometry("450x600")
 root.resizable(0,0)
 
