@@ -29,7 +29,7 @@ message_entry = tkinter.Entry(input_frame, text="Enter a message", width=30)
 send_button = tkinter.Button(input_frame, text="Send")
 message_entry.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 send_button.grid(row=0, column=3, rowspan=2, padx=5, pady=10, ipadx=15, ipady=5)
-
+#hi
 text_color = StringVar()
 text_color.set("#ff0000")
 red_button = tkinter.Radiobutton(input_frame, text="Red", variable=text_color, value="#ff0000", bg=input_color)
