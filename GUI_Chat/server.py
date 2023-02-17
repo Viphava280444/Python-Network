@@ -2,7 +2,8 @@
 import socket, threading
 
 #Define constants to be used
-HOST_IP = socket.gethostbyname(socket.gethostname())
+# HOST_IP = socket.gethostbyname(socket.gethostname())
+HOST_IP = "192.168.10.235"
 HOST_PORT = 12345
 ENCODER = 'utf-8'
 BYTESIZE = 1024
