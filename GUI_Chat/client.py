@@ -85,15 +85,40 @@ def verify_connection(name):
 
 # Disconnect from the server
 def disconnect():
-    pass
+    global client_socket
+
+    client_socket.close()
+
+    #Change button
+    connect_button.config(state=NORMAL)
+    disconnect_button.config(state=DISABLED)
+    send_button.config(state=DISABLED)
+
+    name_entry.config(state=NORMAL)
+    ip_entry.config(state=NORMAL)
+    port_entry.config(state=NORMAL)
 
 #Send message for broadcasting
 def send_message():
-    pass
+    global client_socket
+
+    message = input_entry.get()
+    client_socket.send(message.encode(ENCODER))
+
+    input_entry.delete(0, END)
 
 #Recieve message
 def recieve_message():
-    pass
+    global client_socket
+
+    while True:
+        try:
+            message = client_socket.recv(BYTESIZE).decode(ENCODER)
+            my_listbox.insert(0, message)
+        except:
+            my_listbox.insert(0, "Closing the connection !")
+            disconnect()
+            break
 
 
 #Define GUI Layout
@@ -112,7 +137,7 @@ ip_entry = tkinter.Entry(info_frame, borderwidth=3, font=my_font)
 port_label = tkinter.Label(info_frame, text="Port Num:", font=my_font, fg=light_green, bg=black)
 port_entry = tkinter.Entry(info_frame, borderwidth=3, font=my_font, width=15)
 connect_button = tkinter.Button(info_frame, text="Connect", font=my_font, bg=light_green, borderwidth=5, width=10, command=connect)
-disconnect_button = tkinter.Button(info_frame, text="Disconnect", font=my_font, bg=light_green, borderwidth=5, width=10, state=DISABLED)
+disconnect_button = tkinter.Button(info_frame, text="Disconnect", font=my_font, bg=light_green, borderwidth=5, width=10, state=DISABLED, command=disconnect)
 
 name_label.grid(row=0, column=0, padx=2, pady=10)
 name_entry.grid(row=0, column=1, padx=2, pady=10)
@@ -133,7 +158,7 @@ my_scrollbar.grid(row=0, column=1, sticky="NS")
 
 #Input frame layout
 input_entry = tkinter.Entry(input_frame, width=45, borderwidth=5, font=my_font)
-send_button = tkinter.Button(input_frame, text="send", borderwidth=5, width=10, font=my_font, bg = light_green, state=DISABLED)
+send_button = tkinter.Button(input_frame, text="send", borderwidth=5, width=10, font=my_font, bg = light_green, state=DISABLED, command=send_message)
 input_entry.grid(row=0, column=0, padx=5, pady=5)
 send_button.grid(row=0, column=1, padx=5, pady=5)
 #Run the root window's mainloop

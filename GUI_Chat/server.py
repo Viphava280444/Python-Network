@@ -75,7 +75,7 @@ def connect_client():
 
 
 #Start the server
-print("Server is listening for incoming connections...\n")
+print(f"Server ({HOST_IP}) is listening for incoming connections...\n")
 connect_client()
 
 
