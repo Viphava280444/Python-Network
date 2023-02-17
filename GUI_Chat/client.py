@@ -5,7 +5,6 @@ from tkinter import DISABLED, VERTICAL, END, NORMAL
 #Define window
 root = tkinter.Tk()
 root.title("Chat Client")
-root.iconbitmap("img/message.ico")
 root.geometry("580x600")
 root.resizable(0, 0)
 
