@@ -3,3 +3,6 @@ def calTen():
 
 def calGate():
     return "555"
+
+def calMessage():
+    return "Hello Django"
