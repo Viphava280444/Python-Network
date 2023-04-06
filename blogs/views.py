@@ -7,7 +7,8 @@ from .messageTest import calGate
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse(f"""<h1> Hello I Ohm eiei </h1>
-    <h1> Hello I Tan eiei </h1>
-    <h1> Hello I Bigboss {calGate()} {calTen()}</h1>""")
+def home(request):
+    return HttpResponse(f"INDEX")
+
+def login(request):
+    return HttpResponse("LOGIN")
