@@ -1,17 +1,32 @@
 #Server Side Chat Room
 import socket, threading
 
+
 #Define constants to be used
-# HOST_IP = socket.gethostbyname(socket.gethostname())
-HOST_IP = "192.168.10.235"
+#HOST_IP = socket.gethostbyname(socket.gethostname())
+HOST_IP = "192.168.1.154"
 HOST_PORT = 12345
 ENCODER = 'utf-8'
 BYTESIZE = 1024
+TTL = 1 # Number of time to live
 
-#Create a server socket
+
+# Multicast_Group
+# Create a UDP socket
+print("Server is running")
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# Config TTL
+sock.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, TTL)
+print(TTL)
+
+# Bind the socket to the multicast address and port
+sock.bind((HOST_IP, HOST_PORT))
+
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST_IP, HOST_PORT))
 server_socket.listen()
+
 
 #Create two blank lists to store connected client sockets and their names
 client_socket_list = []
@@ -53,6 +68,12 @@ def recieve_message(client_socket):
 #Connect an incoming client to the server
 def connect_client():
     while True:
+        # Receive a message from a client with UDP
+        message, address = sock.recvfrom(1024)
+        message = "a"
+        # Send message to client with UDP and TTL configulation
+        sock.sendto(message.encode(ENCODER), (address))
+
         #Accept any incoming client connection
         client_socket, client_address = server_socket.accept()
         print(f"Connected with {client_address}...")
@@ -78,5 +99,3 @@ def connect_client():
 #Start the server
 print(f"Server ({HOST_IP}) is listening for incoming connections...\n")
 connect_client()
-
-

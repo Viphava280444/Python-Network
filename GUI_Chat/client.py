@@ -24,6 +24,7 @@ global client_socket
 
 #Connect to the server
 def connect():
+    global sock
     global client_socket
 
     #Clear the chats
@@ -34,21 +35,40 @@ def connect():
     ip = ip_entry.get()
     port = port_entry.get()
 
-    #Only try to make a connection if all three fields are filled in
-    if name and ip and port:
-        my_listbox.insert(0, f"{name} is waiting to connect to {ip} at {port}")
+    # Create a UDP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    
+    # Join the multicast group
+    for i in range(3):
+        # Sent message with UDP for acknowledgement process
+        message = "v"
+        sock.sendto(message.encode(ENCODER), (ip, int(port)))
+         # wait for acknowledgement
+        sock.settimeout(5.0)
+        try:
+            message, address = sock.recvfrom(1024)
+        except socket.timeout:
+             my_listbox.insert(0, "There is no connection")
+             sock.close()
 
-        #Create a client socket
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((ip, int(port)))
+        else:   
+            # if messege is received then connent to TCP
+            if name and ip and port:
+                my_listbox.insert(0, f"{name} is waiting to connect to {ip} at {port}")
+                #Create a client socket
+                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                client_socket.connect((ip, int(port)))
 
-        #Verify that the connection is valid
-        verify_connection(name)
-    else:
-        #Condition wasn't met
-        my_listbox.insert(0, "Insufficient information for connection !")
+                #Verify that the connection is valid
+                verify_connection(name)
+        
+            else:
+                #Condition wasn't met
+                my_listbox.insert(0, "Insufficient information for connection !")
+    
+            break
 
-#Verify that the server connection is valid
+            #Verify that the server connection is valid
 def verify_connection(name):
     global client_socket
     
@@ -84,10 +104,11 @@ def verify_connection(name):
 
 # Disconnect from the server
 def disconnect():
+    global sock
     global client_socket
 
     client_socket.close()
-
+    sock.close()
     #Change button
     connect_button.config(state=NORMAL)
     disconnect_button.config(state=DISABLED)
