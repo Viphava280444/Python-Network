@@ -42,12 +42,7 @@ def connect():
     for i in range(3):
         # Sent message with UDP for acknowledgement process
         message = "v"
-        if name and ip and port:
-            sock.sendto(message.encode(ENCODER), (ip, int(port)))
-        else:
-             #Condition wasn't met
-            my_listbox.insert(0, "Insufficient information for connection !")    
-            # wait for acknowledgement
+        sock.sendto(message.encode(ENCODER), (ip, int(port)))
         sock.settimeout(5.0)
         try:
             message, address = sock.recvfrom(1024)

@@ -8,20 +8,20 @@ HOST_IP = "192.168.1.154"
 HOST_PORT = 12345
 ENCODER = 'utf-8'
 BYTESIZE = 1024
-TTL = 1 # Number of time to live
+TTL = 6 # Number of time to live
 
 
 # Multicast_Group
 # Create a UDP socket
 print("Server is running")
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind((HOST_IP, HOST_PORT))
 
 # Config TTL
 sock.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, TTL)
-print(TTL)
 
 # Bind the socket to the multicast address and port
-sock.bind((HOST_IP, HOST_PORT))
+
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST_IP, HOST_PORT))
@@ -97,5 +97,5 @@ def connect_client():
 
 
 #Start the server
-print(f"Server ({HOST_IP}) is listening for incoming connections...\n")
+print(f"Server ({HOST_IP}) is listening for incoming connections... with TTL = {TTL}\n")
 connect_client()
